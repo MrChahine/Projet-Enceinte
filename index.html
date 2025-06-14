@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projet Enceinte Portfolio</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #f43f5e;
+      --dark: #0f172a;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --dark-bg: #0f172a;
+      --card-dark: #1e293b;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      transition: all 0.4s ease;
+      overflow-x: hidden;
+    }
+    
+    body.dark-mode {
+      background-color: var(--dark-bg);
+      color: #e2e8f0;
+    }
+    
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+    
+    /* Navbar */
+    .navbar {
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dark-mode .navbar {
+      background-color: rgba(15, 23, 42, 0.8);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Hero section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+      z-index: -1;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero-image {
+      position: relative;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .hero-image img {
+      max-width: 100%;
+      filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+    }
+    
+    /* Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      padding: 12px 30px;
+      font-weight: 600;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+    }
+    
+    .btn-outline-primary {
+      border-color: var(--primary);
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-outline-primary:hover {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+    }
+    
+    /* Cards */
+    .card {
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      transition: all 0.4s ease;
+      height: 100%;
+      background-color: white;
+    }
+    
+    .dark-mode .card {
+      background-color: var(--card-dark);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dark-mode .card:hover {
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Skill badges */
+    .skill-badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      padding: 6px 15px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .dark-mode .skill-badge {
+      background: rgba(99, 102, 241, 0.2);
+    }
+    
+    .skill-badge:hover {
+      background: var(--primary);
+      color: white;
+      transform: scale(1.05);
+    }
+    
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+    }
+    
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    }
+    
+    .timeline-item {
+      position: relative;
+      padding-bottom: 30px;
+    }
+    
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -30px;
+      top: 5px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: 3px solid white;
+      z-index: 1;
+    }
+    
+    .dark-mode .timeline-item::before {
+      border-color: var(--dark-bg);
+    }
+    
+    /* Floating animation */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    /* Section titles */
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 50%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+    
+    /* Theme switch */
+    .theme-switch {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+    
+    .theme-switch:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Project showcase */
+    .project-showcase {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .project-showcase img {
+      transition: transform 0.5s ease;
+    }
+    
+    .project-showcase:hover img {
+      transform: scale(1.05);
+    }
+    
+    /* Contact form */
+    .contact-form .form-control {
+      background-color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 12px 15px;
+      border-radius: 8px;
+    }
+    
+    .dark-mode .contact-form .form-control {
+      background-color: rgba(30, 41, 59, 0.8);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .hero {
+        text-align: center;
+        padding-top: 100px;
+      }
+      
+      .hero-image {
+        margin-top: 50px;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold gradient-text" href="#">Projet Enceinte</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#projects">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#skills">Skills</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 hero-content animate__animated animate__fadeIn">
+          <h6 class="text-muted mb-3">HI, I'M</h6>
+          <h1 class="display-3 fw-bold mb-3"><span class="gradient-text">Chahine Chebbi</span></h1>
+          <h2 class="h4 text-muted mb-4">Embedded System Engineer & Developer</h2>
+          <p class="lead mb-4">I contributed to the design and development of an innovative Bluetooth speaker.
+             My role involved selecting and integrating key electronic components, programming the DSP module for audio optimization, and assisting with the enclosure modeling to enhance acoustic performance.</p>
+          <div class="d-flex gap-3">
+            <a href="#projects" class="btn btn-primary btn-lg px-4">
+              <i class="fas fa-eye me-2"></i>View Projects
+            </a>
+            <a href="#contact" class="btn btn-outline-primary btn-lg px-4">
+              <i class="fas fa-paper-plane me-2"></i>Contact Me
+            </a>
+          </div>
+          <div class="d-flex gap-3 mt-4">
+            <a href="https://github.com/MrChahine" class="text-dark fs-4"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/chahine-chebbi/" class="text-dark fs-4"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-6 d-none d-lg-block hero-image animate__animated animate__fadeIn animate__delay-1s">
+          <img src="mouth2.jpeg" alt="Profile Image" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </section>
+
+        <!-- Projects Section -->
+<section id="projects" class="py-5 bg-light">
+  <div class="container py-5">
+    <div class="text-center mb-5">
+      <h2 class="section-title animate__animated animate__fadeIn">Projet Enceinte</h2>
+      <p class="lead text-muted animate__animated animate__fadeIn animate__delay-1s">
+        High-fidelity Bluetooth speaker with premium components
+      </p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-6 animate__animated animate__fadeIn">
+        <div class="project-showcase h-100">
+          <img src="enceinte.png" alt="Project Image" class="img-fluid w-100">
+        </div>
+      </div>
+      <div class="col-lg-6 animate__animated animate__fadeIn animate__delay-1s">
+        <div class="card h-100">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="mb-0">Project Details</h3>
+              <span class="badge bg-primary">Completed</span>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3">
+                <i class="fas fa-tasks me-2 text-primary"></i> Key Tasks
+              </h5>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <h6>Component Selection</h6>
+                  <p class="small text-muted">
+                    Identified and selected high-quality components including the Dayton Audio PC83-8 drivers, the WONDOM JAB2-30 V2 amplifier, the WONDOM ICP5 DSP programmer, and the 18650 battery charger. Choices were based on power efficiency, audio performance, and integration ease.
+                  </p>
+                </div>
+                <div class="timeline-item">
+                  <h6>Electronics Assembly & Wiring</h6>
+                  <p class="small text-muted">
+                    Assembled and wired all internal components: amplifier, Bluetooth module, speaker drivers, battery system (3×18650), and the WONDOM AA-JA11113 charger. Ensured clean routing, secure soldering, and safe power distribution.
+                  </p>
+                </div>
+                <div class="timeline-item">
+                  <h6>DSP Configuration & Audio Profiling</h6>
+                  <p class="small text-muted">
+                    Programmed the audio DSP of the JAB2 module using the WONDOM ICP5 interface. Defined and tested several filter profiles (e.g., bass boost, flat EQ, vocal clarity) to adapt sound output to different environments.
+                  </p>
+                </div>
+                <div class="timeline-item">
+                  <h6>Support in Enclosure CAD Modeling</h6>
+                  <p class="small text-muted">
+                    Advised teammates during the 3D modeling phase on SolidWorks. Helped optimize internal volume, port placement, and acoustic isolation zones based on component layout and acoustic requirements.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h5 class="mb-3">
+                <i class="fas fa-cogs me-2 text-primary"></i> Technical Specs
+              </h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-microchip text-primary me-2"></i> WONDOM JAB2-30 V2</li>
+                    <li class="mb-2"><i class="fas fa-volume-up text-primary me-2"></i> Dayton Audio PC83-8</li>
+                    <li><i class="fas fa-battery-full text-primary me-2"></i> 3×18650 3400mAh</li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-bluetooth text-primary me-2"></i> Bluetooth 5.0</li>
+                    <li class="mb-2"><i class="fas fa-bolt text-primary me-2"></i> 30W RMS</li>
+                    <li><i class="fas fa-clock text-primary me-2"></i> 24h battery</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Skills Section -->
+  <section id="skills" class="py-5">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="section-title animate__animated animate__fadeIn">Skills Developed</h2>
+        <p class="lead text-muted animate__animated animate__fadeIn animate__delay-1s">Technical competencies gained through this project</p>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-4 animate__animated animate__fadeIn">
+          <div class="card h-100">
+            <div class="card-body text-center p-4">
+              <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle p-3 d-inline-block mb-3">
+                <i class="fas fa-microchip fa-2x"></i>
+              </div>
+              <h5>Circuit Design</h5>
+              <p class="text-muted">Designed complete audio circuit with power management and Bluetooth integration</p>
+              <div class="mt-3">
+                <span class="skill-badge">PCB Layout</span>
+                <span class="skill-badge">Power Systems</span>
+                <span class="skill-badge">Signal Processing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 animate__animated animate__fadeIn animate__delay-1s">
+          <div class="card h-100">
+            <div class="card-body text-center p-4">
+              <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle p-3 d-inline-block mb-3">
+                <i class="fas fa-volume-up fa-2x"></i>
+              </div>
+              <h5>Acoustic Engineering</h5>
+              <p class="text-muted">Optimized speaker enclosure for best frequency response and sound quality</p>
+              <div class="mt-3">
+                <span class="skill-badge">Enclosure Design</span>
+                <span class="skill-badge">DSP Tuning</span>
+                <span class="skill-badge">Driver Selection</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 animate__animated animate__fadeIn animate__delay-2s">
+          <div class="card h-100">
+            <div class="card-body text-center p-4">
+              <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle p-3 d-inline-block mb-3">
+                <i class="fas fa-code fa-2x"></i>
+              </div>
+              <h5>Embedded Programming</h5>
+              <p class="text-muted">Developed firmware for DSP processing and Bluetooth connectivity</p>
+              <div class="mt-3">
+                <span class="skill-badge">DSP Programming</span>
+                <span class="skill-badge">Bluetooth Stack</span>
+                <span class="skill-badge">Firmware</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-5 bg-light">
+    <div class="container py-5">
+      <div class="row align-items-center">
+        <div class="col-lg-6 animate__animated animate__fadeIn">
+          <img src="shahine.png" alt="About Image" class="img-fluid rounded shadow">
+        </div>
+        <div class="col-lg-6 animate__animated animate__fadeIn animate__delay-1s">
+          <h2 class="section-title">About Me</h2>
+          <p class="lead">Engineering student specializing in embedded architecture, with a strong foundation in electronic system integration and real-world prototyping.</p>
+          <p>This Bluetooth speaker project was an opportunity to apply my technical skills in component selection, system assembly, DSP configuration, and collaborative product development. I focused on assembling the electronic core of the system, programming the audio processing module, and contributing to design decisions during the enclosure modeling phase.</p>
+
+          <div class="mt-4">
+            <h5>Education & Background:</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><i class="fas fa-graduation-cap text-primary me-2"></i> Engineering Student – ENSIM, France</li>
+              <li class="mb-2"><i class="fas fa-microchip text-primary me-2"></i> Major: Embedded Systems & Architecture</li>
+              <li><i class="fas fa-tools text-primary me-2"></i> Experience in electronics integration.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-5">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center animate__animated animate__fadeIn">
+          <h2 class="section-title">Get In Touch</h2>
+          <p class="lead text-muted mb-5">Have a project in mind or want to discuss audio engineering? Let's talk!</p>
+          
+          <form class="contact-form text-start animate__animated animate__fadeIn animate__delay-1s">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Chahine Chebbi" required>
+              </div>
+              <div class="col-md-6">
+                <input type="email" class="form-control" placeholder="Chahine.Chebbi.Etu@univ-lemans.fr" required>
+              </div>
+              <div class="col-12">
+                <input type="text" class="form-control" placeholder="Subject">
+              </div>
+              <div class="col-12">
+                <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+              </div>
+              <div class="col-12 text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg px-5">
+                  <i class="fas fa-paper-plane me-2"></i>Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 bg-dark text-white">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="mb-0">© 2025 Shahine Chebbi. All rights reserved.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <a href="#" class="text-white mx-2"><i class="fab fa-github"></i></a>
+          <a href="#" class="text-white mx-2"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="text-white mx-2"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Theme Switch -->
+  <div class="theme-switch" id="themeSwitch">
+    <i class="fas fa-moon"></i>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Dark/Light Mode Toggle
+    const themeSwitch = document.getElementById('themeSwitch');
+    const body = document.body;
+    
+    // Check for saved theme preference
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark-mode');
+      themeSwitch.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    
+    themeSwitch.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      
+      if (body.classList.contains('dark-mode')) {
+        themeSwitch.innerHTML = '<i class="fas fa-sun"></i>';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        themeSwitch.innerHTML = '<i class="fas fa-moon"></i>';
+        localStorage.setItem('theme', 'light');
+      }
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+    // Animation on scroll
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll('.animate__animated');
+      
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+        
+        if (elementPosition < screenPosition) {
+          const animationClass = element.getAttribute('class').split('animate__animated ')[1];
+          element.classList.add(animationClass);
+        }
+      });
+    };
+    
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('load', animateOnScroll);
+  </script>
+</body>
+</html>
